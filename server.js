@@ -6,7 +6,7 @@ const port = 8012;
 http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Halo Dunia\n');
+  res.end('45 Butuh Pelukan Wholesome\n');
 }).listen(port);
 
 console.log(`Server running at http://${hostname}:${port}/`);
