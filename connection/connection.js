@@ -6,6 +6,5 @@ const config = new sql.ConnectionPool({
     server: '10.199.13.253',
     database: 'nrp05111740000067'
 });
-console.log(config)
 
 module.exports = config;
