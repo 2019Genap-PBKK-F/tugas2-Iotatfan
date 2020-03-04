@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const sql = require('mssql')
 const hostname = '10.199.14.46';
-// const hostname = '127.0.0.1';
+// const hostname = '10.151.37.67';
 const port = 8012;
 
 //CORS Middleware
@@ -102,7 +102,7 @@ app.delete("/api/mahasiswa/:id", function(req, res)
   executeQuery(res, query, null, 0);
 })
 
-app.listen(port, function () {
+app.listen(port, hostname, function () {
   var message = "Server runnning on Port: " + port;
   console.log(message);
 });
