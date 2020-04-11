@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const sql = require('mssql')
-const hostname = '10.199.14.46';
-// const hostname = '127.0.0.1';
+// const hostname = '10.199.14.46';
+const hostname = '127.0.0.1';
 const port = 8012;
 
 //CORS Middleware
@@ -131,6 +131,12 @@ app.get("/api/capaian-unit/",function(req, res)
     executeQuery(res, query, null, 0);
 });
 
+app.get("/api/capaian-unit/:DataDasar_id&:Unit_id",function(req, res)
+{
+    var query = "select * from Capaian_Unit where DataDasar_id =" + req.params.DataDasar_id + 'and Unit_id =' + req.params.Unit_id;  
+    executeQuery(res, query, null, 0);
+});
+
 // POST FUNCTION
 
 app.post("/api/mahasiswa/", function(req, res)
@@ -235,7 +241,7 @@ app.put("/api/capaian-unit/:DataDasar_id&:Unit_id", function(req, res) {
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
   ]
 
-  var query = 'update Capaian_Unit set DataDasar_id = @DataDasar_id, Unit_id = @Unit_id, waktu = CURRENT_TIMESTAMP, capaian = @capaian where waktu = @waktu';
+  var query = 'update Capaian_Unit set DataDasar_id = @DataDasar_id, Unit_id = @Unit_id, waktu = CURRENT_TIMESTAMP, capaian = @capaian where DataDasar_id = ' + req.params.DataDasar_id + ' and Unit_id =' + req.params.Unit_id;
   executeQuery(res, query, model, 1)
 })
 
