@@ -290,7 +290,6 @@ app.delete("/api/kategori/:id", function(req, res)
   executeQuery(res, query, null, 0);
 })
 
-
 app.delete("/api/capaian-unit/:DataDasar_id&:Unit_id", function(req, res)
 {
   var query = "delete from Capaian_Unit where DataDasar_id=" + req.params.DataDasar_id + 'and Unit_id =' + req.params.Unit_id;
