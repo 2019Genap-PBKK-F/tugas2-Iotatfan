@@ -56,7 +56,8 @@ var executeQuery = function(res, query, model, reqType) {
 
 app.get("/",function(req, res)
 {
-  res.end('45 Butuh Pelukan');
+  // res.end('45 Butuh Pelukan');
+  res.sendFile(__dirname + '/index.html')
 });
 
 app.get("/api/mahasiswa/", function(req, res)
@@ -160,7 +161,7 @@ app.post("/api/data-dasar/", function(req, res)
 {
   var model = [
     { name: 'id', sqltype: sql.Int, value: req.body.id },
-    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama}    
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }    
   ]
 
   var query = 'insert into DataDasar ( nama ) values( @nama )';
@@ -171,10 +172,19 @@ app.post("/api/unit/", function(req, res)
 {
   var model = [
     { name: 'KategoriUnit_id', sqltype: sql.Int, value: req.body.KategoriUnit_id },
-    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama}    
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama}     
   ]
 
   var query = 'insert into Unit ( KategoriUnit_id, nama ) values( @KategoriUnit_id, @nama )';
+  executeQuery(res, query, model, 1)
+})
+
+app.post("/api/kategori/", function( req, res)
+{
+  var model = [
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
+  ]
+  var query = 'insert into KategoriUnit( Nama ) values( @nama )';
   executeQuery(res, query, model, 1)
 })
 
@@ -233,15 +243,24 @@ app.put("/api/unit/:id", function(req, res) {
   executeQuery(res, query, model, 1)
 })
 
+app.post("/api/kategori/:id", function( req, res)
+{
+  var model = [
+    { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
+  ]
+  var query = 'update KategoriUnit set nama = @nama where id=' + req.params.id;
+  executeQuery(res, query, model, 1)
+})
+
 app.put("/api/capaian-unit/:DataDasar_id&:Unit_id", function(req, res) {
   var model = [
-    { name: 'DataDasar_id', sqltype: sql.Int, value: req.body.DataDasar_id },
-    { name: 'Unit_id', sqltype: sql.Int, value: req.body.Unit_id },
+    { name: 'DataDasar_id_new', sqltype: sql.Int, value: req.body.DataDasar_id },
+    { name: 'Unit_id_new', sqltype: sql.Int, value: req.body.Unit_id },
     { name: 'waktu', sqltype: sql.DateTime, value: req.body.waktu },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
   ]
 
-  var query = 'update Capaian_Unit set DataDasar_id = @DataDasar_id, Unit_id = @Unit_id, waktu = CURRENT_TIMESTAMP, capaian = @capaian where DataDasar_id = ' + req.params.DataDasar_id + ' and Unit_id =' + req.params.Unit_id;
+  var query = 'update Capaian_Unit set DataDasar_id = @DataDasar_id_new, Unit_id = @Unit_id_new, waktu = CURRENT_TIMESTAMP, capaian = @capaian where DataDasar_id = ' + req.params.DataDasar_id + ' and Unit_id =' + req.params.Unit_id;
   executeQuery(res, query, model, 1)
 })
 
@@ -264,6 +283,13 @@ app.delete("/api/unit/:id", function(req, res)
   var query = "delete from Unit where id=" + req.params.id;
   executeQuery(res, query, null, 0);
 })
+
+app.delete("/api/kategori/:id", function(req, res)
+{
+  var query = "delete from KategoriUnit where id=" + req.params.id;
+  executeQuery(res, query, null, 0);
+})
+
 
 app.delete("/api/capaian-unit/:DataDasar_id&:Unit_id", function(req, res)
 {
