@@ -242,7 +242,7 @@ app.delete("/api/master-indikator/:id", function(req, res)
 
 //Indikator Periode
 
-app.get("/app/indikator-periode", function(req, res)
+app.get("/api/indikator-periode", function(req, res)
 {
   var query = "select * from Indikator_Periode"
   executeQuery(res, query, null, 0)
