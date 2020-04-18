@@ -102,7 +102,7 @@ app.put("/api/data-dasar/:id", function(req, res) {
 app.delete("/api/data-dasar/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Int, value: req.body.id }
+    { name: 'id', sqltype: sql.Int, value: req.params.id }
   ]
 
   var query = "delete from DataDasar where id = @id"
@@ -143,7 +143,7 @@ app.put("/api/jenis-satker/:id", function(req, res)
 app.delete("/api/jenis-satker/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.body.id }
+    { name: 'id', sqltype: sql.Numeric, value: req.params.id }
   ]
 
   var query = "delete from Jenis_Satker where id = @id" 
@@ -183,7 +183,7 @@ app.put("/api/periode/:id", function(req, res)
 app.delete("/api/periode/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.body.id }
+    { name: 'id', sqltype: sql.Numeric, value: req.params.id }
   ]
 
   var query = "delete from Periode where id = @id"
@@ -202,9 +202,9 @@ app.post("/api/master-indikator/", function(req, res)
 {
   var model = [
     { name: 'id_penyebut', sqltype: sql.Int, value: req.body.id_penyebut },
-    { name: 'id_pembilang', sqltype: sql.Int, value: req.body,id_pembilang },
+    { name: 'id_pembilang', sqltype: sql.Int, value: req.body.id_pembilang },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { nama: 'deskripsi', sqltype: sql.VarChar, value: req.body.deskripsi },
+    { name: 'deskripsi', sqltype: sql.VarChar, value: req.body.deskripsi },
     { name: 'default_bobot', sqltype: sql.Float, value: req.body.default_bobot },
     { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
   ]
@@ -219,9 +219,9 @@ app.put("/api/master-indikator/:id", function(req, res)
   var model = [
     { name: 'id', sqltype: sql.Int, value: req.body.id },
     { name: 'id_penyebut', sqltype: sql.Int, value: req.body.id_penyebut },
-    { name: 'id_pembilang', sqltype: sql.Int, value: req.body,id_pembilang },
+    { name: 'id_pembilang', sqltype: sql.Int, value: req.body.id_pembilang },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { nama: 'deskripsi', sqltype: sql.VarChar, value: req.body.deskripsi },
+    { name: 'deskripsi', sqltype: sql.VarChar, value: req.body.deskripsi },
     { name: 'default_bobot', sqltype: sql.Float, value: req.body.default_bobot }
   ]
 
@@ -233,7 +233,7 @@ app.put("/api/master-indikator/:id", function(req, res)
 app.delete("/api/master-indikator/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Int, value: req.body.id }
+    { name: 'id', sqltype: sql.Int, value: req.params.id }
   ]
   
   var query = "delete from MasterIndikator where id = @id"
@@ -277,8 +277,8 @@ app.put("/api/indikator-periode/:id&id2", function(req, res)
 app.delete("/api/indikator-periode/:id&:id2", function(req, res)
 {
   var model = [
-    { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_master', sqltype: sql.Int, value: req.params.id },
+    { name: 'id_periode', sqltype: sql.Numeric, value: req.params.id2 },
   ]
 
   var query = "delete from Indikator_Periode where id_master = @id_master and id_periode = @id_periode where id_master = @id and id_periode = @id2m"
@@ -327,7 +327,7 @@ app.put("/api/satuan-kerja/:id", function(req, res)
 app.delete("/api/satuan-kerja/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.UniqueIdentifier, value: req.body.id }
+    { name: 'id', sqltype: sql.UniqueIdentifier, value: req.params.id }
   ]
 
   var query = "delete from SatuanKerja where id = @id"
@@ -371,8 +371,8 @@ app.put("/api/capaian-unit/:id&:id2", function(req, res)
 app.delete("/api/capaiam-unit/:id&:id2", function(req, res)
 {
   var model = [
-    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-    { name: 'id_datadasar', sqltype: sql.Int, value: req.body.id_datadasar }
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id },
+    { name: 'id_datadasar', sqltype: sql.Int, value: req.params.id2 }
   ]
 
   var query = "delete from Capaian_Unit where id_satker = @id and id_datadasar = @id2"
@@ -424,9 +424,9 @@ app.put("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
 app.delete("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
 {
   var model = [
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
-    { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker }
+    { name: 'id_periode', sqltype: sql.Numeric, value: req.params.id },
+    { name: 'id_master', sqltype: sql.Int, value: req.params.id2 },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
   ]
 
   var query = "delete from Indikator_SatuanKerja where id_periode = @id_periode and id_master = @id_master and id_satker = @id_satker"
