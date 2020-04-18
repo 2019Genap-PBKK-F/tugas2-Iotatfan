@@ -300,8 +300,8 @@ app.post("/api/satuan-kerja/", function(req, res)
     { name: 'id_jns_satker', sqltype: sql.Numeric, value: req.body.id_jns_satker },
     { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { nama: 'email', sqltype: sql.VarBinary, value: req.body.email },
-    { nama: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
+    { name: 'email', sqltype: sql.VarBinary, value: req.body.email },
+    { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
   ]
 
   var query = "insert into SatuanKerja values( @id, @id_jns_satker, @id_induk_satker, @nama, @email, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, @expired_date)"
@@ -315,8 +315,8 @@ app.put("/api/satuan-kerja/:id", function(req, res)
     { name: 'id_jns_satker', sqltype: sql.Numeric, value: req.body.id_jns_satker },
     { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { nama: 'email', sqltype: sql.VarBinary, value: req.body.email },
-    { nama: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
+    { name: 'email', sqltype: sql.VarBinary, value: req.body.email },
+    { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
   ]
 
   var query = "update SatuanKerja set id_jns_satker = @id_jns_satker, id_induk_satker = @id_induk_satker, nama = @nama, email = @email, last_update = CURRENT_TIMESTAMP " +
