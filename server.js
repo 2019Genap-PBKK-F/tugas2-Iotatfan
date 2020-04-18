@@ -248,7 +248,7 @@ app.get("/app/indikator-periode", function(req, res)
   executeQuery(res, query, null, 0)
 })
 
-app.pos("/api/indikator-periode", function(req, res)
+app.post("/api/indikator-periode", function(req, res)
 {
   var model = [
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
