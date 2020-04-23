@@ -204,6 +204,12 @@ app.get("/api/aspek/", function(req, res)
     executeQuery(res, query, null, 0)
 })
 
+app.get("/api/aspek/nama", function(req, res)
+{
+    var query = "select id, aspek as name from Aspek"
+    executeQuery(res, query, null, 0)
+})
+
 app.post("/api/aspek/", function(req, res)
 {
   var model = [
@@ -212,7 +218,7 @@ app.post("/api/aspek/", function(req, res)
     { name: 'komponen_aspek', sqltype: sql.VarChar, value: req.body.komponenAspek }
   ]
 
-  var query = "insert into Aspek( aspek, komponen_aspek ) values ( @aspek, @komponenAspek )"
+  var query = "insert into Aspek( aspek, komponen_aspek ) values ( @aspek, @komponen_aspek )"
   executeQuery(res, query, model, 1)
 })
 
@@ -224,7 +230,7 @@ app.put("/api/aspek/:id", function(req, res)
     { name: 'komponen_aspek', sqltype: sql.VarChar, value: req.body.komponenAspek }
   ]
 
-  var query = "update Aspek set aspek = @aspek, komponen_aspek = @komponenAspek where id = @id" 
+  var query = "update Aspek set aspek = @aspek, komponen_aspek = @komponen_aspek where id = @id" 
   executeQuery(res, query, model, 1)
 })
 
