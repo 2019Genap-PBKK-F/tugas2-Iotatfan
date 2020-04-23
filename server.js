@@ -196,6 +196,49 @@ app.delete("/api/periode/:id", function(req, res)
   executeQuery(res, query, model, 1)
 })
 
+// Aspek
+
+app.get("/api/aspek/", function(req, res)
+{
+    var query = "select * from Aspek"
+    executeQuery(res, query, null, 0)
+})
+
+app.post("/api/aspek/", function(req, res)
+{
+  var model = [
+    { name: 'id', sqltype: sql.Int, value: req.body.id },
+    { name: 'aspek', sqltype: sql.VarChar, value: req.body.aspek },
+    { name: 'komponen_aspek', sqltype: sql.VarChar, value: req.body.komponenAspek }
+  ]
+
+  var query = "insert into Aspek( aspek, komponen_aspek ) values ( @aspek, @komponenAspek )"
+  executeQuery(res, query, model, 1)
+})
+
+app.put("/api/aspek/:id", function(req, res)
+{
+  var model = [
+    { name: 'id', sqltype: sql.Int, value: req.params.id },
+    { name: 'aspek', sqltype: sql.VarChar, value: req.body.aspek },
+    { name: 'komponen_aspek', sqltype: sql.VarChar, value: req.body.komponenAspek }
+  ]
+
+  var query = "update Aspek set aspek = @aspek, komponen_aspek = @komponenAspek where id = @id" 
+  executeQuery(res, query, model, 1)
+})
+
+app.delete("/api/aspek/:id", function(req, res)
+{
+  var model = [
+    { name: 'id', sqltype: sql.Int, value: req.params.id }
+  ]
+
+  var query = "delete from Aspek where id = @id"
+  executeQuery(res, query, model, 1)
+})
+
+
 //Master Indikator
 
 app.get("/api/master-indikator/", function(req, res)
