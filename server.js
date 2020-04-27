@@ -164,6 +164,12 @@ app.get("/api/periode/", function(req, res)
     executeQuery(res, query, null, 0)
 })
 
+app.get("/api/periode/tahun", function(req, res)
+{
+    var query = "select id, nama as name from Periode"
+    executeQuery(res, query, null, 0)
+})
+
 app.post("/api/periode/", function(req, res)
 {
   var model = [
@@ -250,6 +256,12 @@ app.delete("/api/aspek/:id", function(req, res)
 app.get("/api/master-indikator/", function(req, res)
 {
   var query = "select * from MasterIndikator"
+  executeQuery(res, query, null, 0)
+})
+
+app.get("/api/master-indikator/nama", function(req, res)
+{
+  var query = "select id, nama as name from MasterIndikator"
   executeQuery(res, query, null, 0)
 })
 
