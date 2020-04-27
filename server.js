@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const sql = require('mssql')
-const hostname = '10.199.14.46'
+// const hostname = '10.199.14.46'
 // const hostname = '127.0.0.1'
 const port = 8012
 
@@ -126,9 +126,9 @@ app.get("/api/jenis-satker/nama", function(req, res)
 app.post("/api/jenis-satker/", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.body.id },
+    { name: 'id', sqltype: sql.Int, value: req.body.id },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
-    { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
+    // { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
   ]
 
   var query = 'insert into JenisSatker ( nama, create_date, last_update, expired_date ) values( @nama, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (CURRENT_TIMESTAMP + 365) )'
@@ -138,7 +138,7 @@ app.post("/api/jenis-satker/", function(req, res)
 app.put("/api/jenis-satker/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.body.id },
+    { name: 'id', sqltype: sql.Int, value: req.body.id },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
   ]
 
@@ -149,7 +149,7 @@ app.put("/api/jenis-satker/:id", function(req, res)
 app.delete("/api/jenis-satker/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.params.id }
+    { name: 'id', sqltype: sql.Int, value: req.params.id }
   ]
 
   var query = "delete from JenisSatker where id = @id" 
@@ -167,18 +167,18 @@ app.get("/api/periode/", function(req, res)
 app.post("/api/periode/", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.body.id },
+    { name: 'id', sqltype: sql.Int, value: req.body.id },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
   ]
 
-  var query = "insert into Periode values ( @id, @nama, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
+  var query = "insert into Periode( nama, create_date, last_update ) values ( @nama, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
   executeQuery(res, query, model, 1)
 })
 
 app.put("/api/periode/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.body.id },
+    { name: 'id', sqltype: sql.Int, value: req.body.id },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama }
   ]
 
@@ -189,7 +189,7 @@ app.put("/api/periode/:id", function(req, res)
 app.delete("/api/periode/:id", function(req, res)
 {
   var model = [
-    { name: 'id', sqltype: sql.Numeric, value: req.params.id }
+    { name: 'id', sqltype: sql.Int, value: req.params.id }
   ]
 
   var query = "delete from Periode where id = @id"
@@ -309,7 +309,7 @@ app.post("/api/indikator-periode", function(req, res)
 {
   var model = [
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_periode', sqltype: sql.Int, value: req.body.id_periode },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
   ]
   console.log(model)
@@ -322,10 +322,10 @@ app.put("/api/indikator-periode/:id&:id2", function(req, res)
 {
   var model = [
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_periode', sqltype: sql.Int, value: req.body.id_periode },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
     { name: 'id', sqltype: sql.Int, value: req.params.id },
-    { name: 'id2', sqltype: sql.Numeric, value: req.params.id2 }
+    { name: 'id2', sqltype: sql.Int, value: req.params.id2 }
   ]
 
   var query = "update Indikator_Periode set id_master = @id_master, id_periode = @id_periode, bobot = @bobot where id_master = @id and id_periode = @id2"
@@ -336,7 +336,7 @@ app.delete("/api/indikator-periode/:id&:id2", function(req, res)
 {
   var model = [
     { name: 'id_master', sqltype: sql.Int, value: req.params.id },
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.params.id2 },
+    { name: 'id_periode', sqltype: sql.Int, value: req.params.id2 },
   ]
 
   var query = "delete from Indikator_Periode where id_master = @id_master and id_periode = @id_periode"
@@ -360,16 +360,17 @@ app.get("/api/satuan-kerja/induk", function(req, res)
 app.post("/api/satuan-kerja/", function(req, res)
 {
   var model = [
-    // { name: 'id', sqltype: sql.UniqueIdentifier, value: req.body.id },
-    { name: 'id_jns_satker', sqltype: sql.Numeric, value: req.body.id_jns_satker },
-    { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker },
+    { name: 'id', sqltype: sql.UniqueIdentifier, value: req.body.id },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
+    { name: 'level_unit', sqltype: sql.Int, value: req.body.level_unit },
+    { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker },
+    { name: 'id_jns_satker', sqltype: sql.Int, value: req.body.id_jns_satker },
     { name: 'email', sqltype: sql.VarChar, value: req.body.email },
-    { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
+    // { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
   ]
 
-  var query = "insert into SatuanKerja( id_jns_satker, id_induk_satker, nama, email, create_date, last_update, expired_date)" +
-              "values( @id_jns_satker, @id_induk_satker, @nama, @email, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (CURRENT_TIMESTAMP+365) )"
+  var query = "insert into SatuanKerja( id, nama, level_unit, id_induk_satker, id_jns_satker, email, create_date, last_update, expired_date)" +
+              "values( @id, @nama, @level_unit, @id_induk_satker, @id_jns_satker, @email, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (CURRENT_TIMESTAMP+365) )"
   executeQuery(res, query, model, 1)
 })
 
@@ -377,14 +378,15 @@ app.put("/api/satuan-kerja/:id", function(req, res)
 {
   var model = [
     { name: 'id', sqltype: sql.UniqueIdentifier, value: req.body.id },
-    { name: 'id_jns_satker', sqltype: sql.Numeric, value: req.body.id_jns_satker },
-    { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker },
     { name: 'nama', sqltype: sql.VarChar, value: req.body.nama },
+    { name: 'level_unit', sqltype: sql.Int, value: req.body.level_unit },
+    { name: 'id_induk_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_induk_satker },
+    { name: 'id_jns_satker', sqltype: sql.Int, value: req.body.id_jns_satker },
     { name: 'email', sqltype: sql.VarChar, value: req.body.email },
-    { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
+    // { name: 'expired_date', sqltype: sql.DateTime, value: req.body.expired_date }
   ]
 
-  var query = "update SatuanKerja set id_jns_satker = @id_jns_satker, id_induk_satker = @id_induk_satker, nama = @nama, email = @email, last_update = CURRENT_TIMESTAMP " +
+  var query = "update SatuanKerja set nama = @nama, level_unit = @level_unit, id_induk_satker = @id_induk_satker, id_jns_satker = @id_jns_satker, email = @email, last_update = CURRENT_TIMESTAMP " +
               "where id = @id"
   executeQuery(res, query, model, 1)
 })
@@ -455,7 +457,7 @@ app.get("/api/indikator-satuan-kerja/", function(req, res)
 app.post("/api/indikator-satuan-kerja/", function(req, res)
 {
   var model = [
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_periode', sqltype: sql.Int, value: req.body.id_periode },
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
@@ -470,13 +472,13 @@ app.post("/api/indikator-satuan-kerja/", function(req, res)
 app.put("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
 {
   var model = [
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_periode', sqltype: sql.Int, value: req.body.id_periode },
     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
     { name: 'target', sqltype: sql.Float, value: req.body.target },
     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
-    { name: 'id', sqltype: sql.Numeric, value: req.params.id },
+    { name: 'id', sqltype: sql.Int, value: req.params.id },
     { name: 'id2', sqltype: sql.Int, value: req.params.id2 },
     { name: 'id3', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
   ]
@@ -489,7 +491,7 @@ app.put("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
 app.delete("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
 {
   var model = [
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.params.id },
+    { name: 'id_periode', sqltype: sql.Int, value: req.params.id },
     { name: 'id_master', sqltype: sql.Int, value: req.params.id2 },
     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
   ]
