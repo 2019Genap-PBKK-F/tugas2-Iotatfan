@@ -520,6 +520,31 @@ app.get("/api/log-indikator-satker", function(req, res){
   executeQuery(res, query, null, 0)
 })
 
+//Read FP
+app.get("/api/dosen/", function(req, res)
+{
+    var query = "select * from Dosen"
+    executeQuery(res, query, null, 0)
+})
+
+app.get("/api/abmas/", function(req, res)
+{
+    var query = "select * from abmas"
+    executeQuery(res, query, null, 0)
+})
+
+app.get("/api/publikasi/", function(req, res)
+{
+    var query = "select * from publikasi"
+    executeQuery(res, query, null, 0)
+})
+
+app.get("/api/penelitian/", function(req, res)
+{
+    var query = "select * from penelitian"
+    executeQuery(res, query, null, 0)
+})
+
 //  LISTEN
 
 app.listen(port, hostname, function () {
