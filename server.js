@@ -43,7 +43,7 @@ var executeQuery = function(res, query, model, reqType) {
           console.log('Query Error\n' + err)
         }
         else{
-          // console.log(response.recordset)
+          console.log(response.recordset)
           res.send(response.recordset)
         }
      })
@@ -460,12 +460,25 @@ app.delete("/api/capaian-unit/:id&:id2", function(req, res)
 
 //Indikator Satuan Kerja
 
-app.get("/api/indikator-satuan-kerja/", function(req, res)
+app.get("/api/indikator-satuan-kerja/:id", function(req, res)
 {
-  var query = "select apk.aspek, apk.komponen_aspek, mi.nama, isk.bobot, isk.target, isk.capaian from Indikator_SatuanKerja isk " +
-              "Inner Join MasterIndikator mi on isk.id_master = mi.id inner join Aspek apk on mi.id_aspek = apk.id"
+  var model = [
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id }
+  ]
+  var query = "select sk.nama as Nama, apk.aspek as Aspek, apk.komponen_aspek as Komponen, mi.nama as Indikator, " +
+              "isk.bobot as Bobot, isk.target as Target, isk.capaian as Capaian from Indikator_SatuanKerja isk " +
+              "Inner Join MasterIndikator mi on isk.id_master = mi.id inner join Aspek apk on mi.id_aspek = apk.id " +
+              "inner join SatuanKerja sk on isk.id_satker = sk.id where sk.id = @id_satker" 
+              
+  executeQuery(res, query, model, 1)
+})
+
+app.get("/api/satuan-kerja/dropdown", function(req, res)
+{
+  var query = "select id, nama from SatuanKerja where nama like 'Departemen%' or nama like 'Fakultas%' order by nama"  
   executeQuery(res, query, null, 0)
 })
+
 
 // app.post("/api/indikator-satuan-kerja/", function(req, res)
 // {
