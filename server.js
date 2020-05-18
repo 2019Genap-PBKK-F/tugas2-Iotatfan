@@ -462,7 +462,7 @@ app.delete("/api/capaian-unit/:id&:id2", function(req, res)
 
 app.get("/api/indikator-satuan-kerja/", function(req, res)
 {
-  var query = "select apk.aspek, apk.komponen_aspek, mi.nama, isk.bobot, isk.target, isk.capaian from Indikator_SatuanKerja isk" +
+  var query = "select apk.aspek, apk.komponen_aspek, mi.nama, isk.bobot, isk.target, isk.capaian from Indikator_SatuanKerja isk " +
               "Inner Join MasterIndikator mi on isk.id_master = mi.id inner join Aspek apk on mi.id_aspek = apk.id"
   executeQuery(res, query, null, 0)
 })
