@@ -465,7 +465,7 @@ app.get("/api/indikator-satuan-kerja/:id", function(req, res)
   var model = [
     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id }
   ]
-  var query = "select sk.nama as Nama, apk.aspek as Aspek, apk.komponen_aspek as Komponen, mi.nama as Indikator, " +
+  var query = "select row_number() over (order by apk.aspek) as num, apk.aspek as Aspek, apk.komponen_aspek as Komponen, mi.nama as Indikator, " +
               "isk.bobot as Bobot, isk.target as Target, isk.capaian as Capaian from Indikator_SatuanKerja isk " +
               "Inner Join MasterIndikator mi on isk.id_master = mi.id inner join Aspek apk on mi.id_aspek = apk.id " +
               "inner join SatuanKerja sk on isk.id_satker = sk.id where sk.id = @id_satker" 
