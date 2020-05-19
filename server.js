@@ -479,54 +479,6 @@ app.get("/api/satuan-kerja/dropdown", function(req, res)
   executeQuery(res, query, null, 0)
 })
 
-
-// app.post("/api/indikator-satuan-kerja/", function(req, res)
-// {
-//   var model = [
-//     { name: 'id_periode', sqltype: sql.Int, value: req.body.id_periode },
-//     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-//     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-//     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-//     { name: 'target', sqltype: sql.Float, value: req.body.target },
-//     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
-//   ]
-
-//   var query = "insert into Indikator_SatuanKerja values( @id_periode, @id_master, @id_satker, @bobot, @target, @capaian, CURRENT_TIMESTAMP)"
-//   executeQuery(res, query, model, 1)
-// })
-
-// app.put("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
-// {
-//   var model = [
-//     { name: 'id_periode', sqltype: sql.Int, value: req.body.id_periode },
-//     { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-//     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-//     { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-//     { name: 'target', sqltype: sql.Float, value: req.body.target },
-//     { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
-//     { name: 'id', sqltype: sql.Int, value: req.params.id },
-//     { name: 'id2', sqltype: sql.Int, value: req.params.id2 },
-//     { name: 'id3', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
-//   ]
-
-//   var query = "update Indikator_SatuanKerja set id_periode = @id_periode, id_master = @id_master, id_satker = @id_satker, bobot = @bobot, target = @target, " +
-//               "capaian = @capaian, last_update = CURRENT_TIMESTAMP where id_periode = @id and id_master = @id2 and id_satker = @id3"
-//   executeQuery(res, query, model, 1)
-// })
-
-// app.delete("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
-// {
-//   var model = [
-//     { name: 'id_periode', sqltype: sql.Int, value: req.params.id },
-//     { name: 'id_master', sqltype: sql.Int, value: req.params.id2 },
-//     { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
-//   ]
-//   console.log(model)
-
-//   var query = "delete from Indikator_SatuanKerja where id_periode = @id_periode and id_master = @id_master and id_satker = @id_satker"
-//   executeQuery(res, query, model, 1)
-// })
-
 //Log Indikator Satuan Kerja
 
 app.get("/api/log-indikator-satker", function(req, res){
@@ -557,6 +509,18 @@ app.get("/api/penelitian/", function(req, res)
 {
     var query = "select * from penelitian"
     executeQuery(res, query, null, 0)
+})
+
+// AUTH But Not Really
+
+app.get('/auth/login/:email', function(req, res)
+{
+  var model = [
+    { name: 'email', sqltype: sql.VarChar, value: req.params.email }
+  ]
+  var query = 'select id, nama, email from SatuanKerja where email = @email'
+
+  executeQuery(res, query, model, 1)
 })
 
 //  LISTEN
