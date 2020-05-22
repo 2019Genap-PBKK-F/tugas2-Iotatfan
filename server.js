@@ -473,7 +473,7 @@ app.get("/api/indikator-satuan-kerja/:id", function(req, res)
   executeQuery(res, query, model, 1)
 })
 
-app.get("/api/satuan-kerja/dropdown", function(req, res)
+app.get("/api/satuan-kerja/dropdown/:id", function(req, res)
 {
   var model = [
     { name: 'id', sqltype: sql.UniqueIdentifier, value: req.params.id }
