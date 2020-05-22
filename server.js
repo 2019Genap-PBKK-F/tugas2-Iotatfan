@@ -475,7 +475,12 @@ app.get("/api/indikator-satuan-kerja/:id", function(req, res)
 
 app.get("/api/satuan-kerja/dropdown", function(req, res)
 {
-  var query = "select id, nama from SatuanKerja where nama like 'Departemen%' or nama like 'Fakultas%' order by nama"  
+  var model = [
+    { name: 'id', sqltype: sql.UniqueIdentifier, value: req.params.id }
+  ]
+
+  var query = "select id, nama from SatuanKerja where (id = @id or id_induk_satker = @id) " +
+              "and (nama like 'Departemen%' or nama like 'Fakultas%') order by nama"  
   executeQuery(res, query, null, 0)
 })
 
