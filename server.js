@@ -481,7 +481,7 @@ app.get("/api/satuan-kerja/dropdown", function(req, res)
 
   var query = "select id, nama from SatuanKerja where (id = @id or id_induk_satker = @id) " +
               "and (nama like 'Departemen%' or nama like 'Fakultas%') order by nama"  
-  executeQuery(res, query, null, 0)
+  executeQuery(res, query, model, 1)
 })
 
 //Log Indikator Satuan Kerja
