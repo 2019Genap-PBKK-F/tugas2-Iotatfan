@@ -1,9 +1,8 @@
 const express = require("express")
-const app = express()
 const sql = require('mssql')
-const hostname = '10.199.14.46'
-// const hostname = '127.0.0.1'
+const app = express()
 const port = 8012
+
 
 //CORS Middleware
 app.use(function (req, res, next) {
@@ -460,6 +459,14 @@ app.delete("/api/capaian-unit/:id&:id2", function(req, res)
 
 //Indikator Satuan Kerja
 
+app.get("/api/indikator-satuan-kerja/", function(req, res)
+{
+  var query = "select * from Indikator_SatuanKerja" 
+              
+  executeQuery(res, query, null, 0)
+})
+
+
 app.get("/api/indikator-satuan-kerja/:id", function(req, res)
 {
   var model = [
@@ -483,6 +490,54 @@ app.get("/api/satuan-kerja/dropdown/:id", function(req, res)
               "and (nama like 'Departemen%' or nama like 'Fakultas%') order by nama"  
   executeQuery(res, query, model, 1)
 })
+
+app.post("/api/indikator-satuan-kerja/", function(req, res)
+{
+  var model = [
+    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
+    { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
+    { name: 'target', sqltype: sql.Float, value: req.body.target },
+    { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
+  ]
+
+  query = "Insert into Indikator_SatuanKerja values (@id_periode, @id_master, @id_satker, @bobot, @target, @capaian, CURRENT_TIMESTAMP)"
+              
+  executeQuery(res, query, model, 1)
+})
+
+app.put("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
+{
+  var model = [
+    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
+    { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
+    { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
+    { name: 'target', sqltype: sql.Float, value: req.body.target },
+    { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
+    { name: 'id', sqltype: sql.Numeric, value: req.params.id },
+    { name: 'id2', sqltype: sql.Int, value: req.params.id2 },
+    { name: 'id3', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
+  ]
+
+  var query = "update Indikator_SatuanKerja set id_periode = @id_periode, id_master = @id_master, id_satker = @id_satker, bobot = @bobot, target = @target " +
+              "capaian = @capaian, last_update = CURRENT_TIMESTAMP where id_periode = @id and id_master = @id2 and id_satker = @id3"
+  executeQuery(res, query, model, 1)
+})
+
+app.delete("/api/indikator-satuan-kerja/:id&:id2&:id3", function(req, res)
+{
+  var model = [
+    { name: 'id', sqltype: sql.Numeric, value: req.params.id },
+    { name: 'id2', sqltype: sql.Int, value: req.params.id2 },
+    { name: 'id3', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
+  ]
+
+  var query = "delete from Indikator_SatuanKerja where id_periode = @id, id_master = @id2 and id_satker = @id3"
+  executeQuery(res, query, model, 1)
+})
+
 
 //Log Indikator Satuan Kerja
 
@@ -530,7 +585,7 @@ app.get('/auth/login/:email', function(req, res)
 
 //  LISTEN
 
-app.listen(port, hostname, function () {
+app.listen(port, function () {
   var message = "Server runnning on Port: " + port
   console.log(message)
 })
